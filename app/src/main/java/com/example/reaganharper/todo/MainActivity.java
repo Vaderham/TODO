@@ -16,7 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     @BindView(R.id.my_toolbar) Toolbar myToolbar;
     @BindView(R.id.recycle) RecyclerView recyclerView;
@@ -36,9 +36,12 @@ public class MainActivity extends AppCompatActivity {
 
         todolist = new ArrayList<>();
 
-        // Create adapter passing in the sample user data
-        mAdapter = new RecyclerAdapter(this, todolist);
-        // Attach the adapter to the recyclerview to populate items
+        mAdapter = new RecyclerAdapter(this, todolist, new OnCheckboxTickListener() {
+            @Override
+            public void onItemCheck(int position) {
+                removeToDo(position);
+            }
+        });
         recyclerView.setAdapter(mAdapter);
         // Set layout manager to position the items
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -56,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, RESPONSE_CODE);
             }
         });
-
-
 
     }
 
@@ -81,5 +82,4 @@ public class MainActivity extends AppCompatActivity {
     public void updateAdapter(){
         mAdapter.notifyDataSetChanged();
     }
-
 }
