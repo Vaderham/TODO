@@ -3,7 +3,7 @@ package com.example.reaganharper.todo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ToDoItem implements Parcelable {
+public class ToDoItem implements Parcelable{
 
     private String name;
     private Long date;

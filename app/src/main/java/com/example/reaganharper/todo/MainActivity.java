@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        // Lookup the recyclerview in activity layout
-
         todolist = new ArrayList<>();
 
         mAdapter = new RecyclerAdapter(this, todolist, new OnCheckboxTickListener() {
@@ -43,10 +41,7 @@ public class MainActivity extends AppCompatActivity{
             }
         });
         recyclerView.setAdapter(mAdapter);
-        // Set layout manager to position the items
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        // That's all!
-
 
         FloatingActionButton button = findViewById(R.id.go);
 
@@ -67,8 +62,10 @@ public class MainActivity extends AppCompatActivity{
         if (requestCode == RESPONSE_CODE) {
             if (resultCode == RESULT_OK) {
                 ToDoItem result = data.getParcelableExtra("todo");
-                todolist.add(result);
-                Log.v("TESTER", todolist.get(0).getName().toString());
+             //   todolist.add(result);
+                for (int i = 0; i < 10; i++) {
+                    todolist.add(result);
+                }
                 updateAdapter();
             }
         }

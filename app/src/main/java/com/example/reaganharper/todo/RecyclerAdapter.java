@@ -36,10 +36,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         mOnCheckboxTickListener = onCheckboxTickListener;
     }
 
-    private Context getContext() {
-        return mContext;
-    }
-
     @Override
     public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
