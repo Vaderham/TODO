@@ -49,4 +49,8 @@ public class ToDoItem implements Parcelable{
     public String getName() {
         return name;
     }
+
+    public Long getDate() {
+        return date;
+    }
 }

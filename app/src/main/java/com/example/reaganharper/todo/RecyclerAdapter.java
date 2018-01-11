@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
@@ -16,12 +18,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView todoTextView;
+        public TextView date;
         public CheckBox mDone;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             todoTextView = itemView.findViewById(R.id.text);
+            date = itemView.findViewById(R.id.date);
             mDone = itemView.findViewById(R.id.done);
         }
     }
@@ -51,6 +55,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         ToDoItem toDoItem = ToDoItemList.get(position);
 
         TextView textView = viewHolder.todoTextView;
+        TextView dateView = viewHolder.date;
         CheckBox checkBox = viewHolder.mDone;
 
         checkBox.setChecked(false);
@@ -63,6 +68,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         });
 
         textView.setText(toDoItem.getName());
+
+        String dateString = new SimpleDateFormat("dd/MM/yyyy").format(new Date(toDoItem.getDate()));
+
+        dateView.setText(dateString);
     }
 
     @Override
