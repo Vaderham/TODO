@@ -12,7 +12,7 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddItem extends AppCompatActivity {
+public class AddItemActivity extends AppCompatActivity {
 
 
     @BindView(R.id.name)

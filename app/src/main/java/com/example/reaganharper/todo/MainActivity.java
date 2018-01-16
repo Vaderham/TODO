@@ -1,5 +1,6 @@
 package com.example.reaganharper.todo;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity{
     @BindView(R.id.my_toolbar) Toolbar myToolbar;
     @BindView(R.id.recycle) RecyclerView recyclerView;
     RecyclerAdapter mAdapter;
+    AppDatabase mDb;
 
     private static final int RESPONSE_CODE = 1;
 
@@ -31,6 +33,10 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        mDb = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "todos").build();
+
 
         todolist = new ArrayList<>();
 
@@ -50,7 +56,7 @@ public class MainActivity extends AppCompatActivity{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent intent = new Intent(view.getContext(), AddItem.class);
+               Intent intent = new Intent(view.getContext(), AddItemActivity.class);
                 startActivityForResult(intent, RESPONSE_CODE);
             }
         });
@@ -61,12 +67,10 @@ public class MainActivity extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESPONSE_CODE) {
             if (resultCode == RESULT_OK) {
-                ToDoItem result = data.getParcelableExtra("todo");
-             //   todolist.add(result);
-                for (int i = 0; i < 10; i++) {
-                    todolist.add(result);
-                }
-                updateAdapter();
+//                ToDoItem result = data.getParcelableExtra("todo");
+//                mDb.toDoDao().insertAll(result);
+//                Log.v("result", mDb.toDoDao().getAll().toString());
+//                updateAdapter();
             }
         }
     }
@@ -79,4 +83,6 @@ public class MainActivity extends AppCompatActivity{
     public void updateAdapter(){
         mAdapter.notifyDataSetChanged();
     }
+    
+
 }

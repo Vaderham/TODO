@@ -11,9 +11,6 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         >
 
-        <meta-data android:name="DATABASE" android:value="todo.db" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.example" />
-
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -22,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddItem"></activity>
+        <activity android:name=".AddItemActivity"></activity>
     </application>
 
 </manifest>
