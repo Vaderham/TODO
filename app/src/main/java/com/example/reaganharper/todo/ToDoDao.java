@@ -15,4 +15,6 @@ public interface ToDoDao {
     @Insert
     void insertAll(ToDoItem... toDoItems);
 
+    @Insert
+    void insertOneItem(ToDoItem... todoItem);
 }

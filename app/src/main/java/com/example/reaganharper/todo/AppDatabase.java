@@ -7,13 +7,12 @@ import android.content.Context;
 import android.support.annotation.WorkerThread;
 
 
-@Database(entities = {ToDoItem.class}, version = 1)
+@Database(entities = {ToDoItem.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract ToDoDao toDoDao();
 
     private static AppDatabase INSTANCE;
 
-    @WorkerThread
     public static AppDatabase getAppDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context, AppDatabase.class, "todos")

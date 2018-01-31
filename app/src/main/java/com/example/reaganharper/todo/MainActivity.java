@@ -2,13 +2,13 @@ package com.example.reaganharper.todo;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -35,10 +35,12 @@ public class MainActivity extends AppCompatActivity{
         ButterKnife.bind(this);
 
         mDb = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "todos").build();
-
+                AppDatabase.class, "todos").fallbackToDestructiveMigration().build();
 
         todolist = new ArrayList<>();
+
+        AsyncTask startUptask = new GetDbTask();
+        startUptask.execute();
 
         mAdapter = new RecyclerAdapter(this, todolist, new OnCheckboxTickListener() {
             @Override
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity{
                 removeToDo(position);
             }
         });
+
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View view) {
                Intent intent = new Intent(view.getContext(), AddItemActivity.class);
                 startActivityForResult(intent, RESPONSE_CODE);
+
             }
         });
 
@@ -67,10 +71,11 @@ public class MainActivity extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESPONSE_CODE) {
             if (resultCode == RESULT_OK) {
-//                ToDoItem result = data.getParcelableExtra("todo");
-//                mDb.toDoDao().insertAll(result);
-//                Log.v("result", mDb.toDoDao().getAll().toString());
-//                updateAdapter();
+                ToDoItem result = data.getParcelableExtra("todo");
+                UpdateDatabaseTask dbTask = new UpdateDatabaseTask();
+                dbTask.execute(result);
+
+                updateAdapter();
             }
         }
     }
@@ -83,6 +88,37 @@ public class MainActivity extends AppCompatActivity{
     public void updateAdapter(){
         mAdapter.notifyDataSetChanged();
     }
-    
+
+    public class UpdateDatabaseTask extends AsyncTask<ToDoItem, Void, List<ToDoItem>>{
+        @Override
+        protected List<ToDoItem> doInBackground(ToDoItem... toDoItems) {
+            mDb.toDoDao().insertOneItem(toDoItems);
+            todolist = mDb.toDoDao().getAll();
+
+//            for(int i = 0; i < todolist.size(); i++){
+//                Log.v("TODO List #" + i, todolist.get(i).getName());
+//            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<ToDoItem> toDoItems) {
+            super.onPostExecute(toDoItems);
+        }
+    }
+
+    public class GetDbTask extends AsyncTask<Void, Void, List<ToDoItem>>{
+
+        @Override
+        protected List<ToDoItem> doInBackground(Void... voids) {
+            return mDb.toDoDao().getAll();
+        }
+
+        @Override
+        protected void onPostExecute(List<ToDoItem> toDoItems) {
+            todolist = toDoItems;
+        }
+    }
 
 }

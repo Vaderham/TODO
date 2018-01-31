@@ -2,6 +2,7 @@ package com.example.reaganharper.todo;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -9,7 +10,7 @@ import android.os.Parcelable;
 @Entity(tableName = "todos")
 public class ToDoItem implements Parcelable{
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "todo")
@@ -18,7 +19,7 @@ public class ToDoItem implements Parcelable{
     @ColumnInfo(name = "date")
     private Long date;
 
-    public ToDoItem(String name, Long date) {
+    public ToDoItem(String name, long date) {
         this.name = name;
         this.date = date;
     }
